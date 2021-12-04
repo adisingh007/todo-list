@@ -1,5 +1,6 @@
-const express = require('express');
+
 const uuid = require('uuid');
+const express = require('express');
 const app = express();
 
 const todoList = [];
@@ -71,5 +72,4 @@ app.patch('/todo/:uuid', (req, res) => {
     }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server up and running on port ${port}`));
+module.exports = app;
