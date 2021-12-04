@@ -20,22 +20,27 @@ app.get('/', (_, res) => {
 });
 
 app.put('/todo', (req, res) => {
-    const task = req.body.task;
-
-    if(!task) {
+    const tasks = req.body.tasks;
+    if(!tasks) {
         res.status(400);
-        res.send("No task provided");
-    } else if(!task.title) {
-        res.status(400);
-        res.send("No task title provided");
+        res.send("Tasks not provided");
     } else {
-        const todo = new Todo(task.title, task.description);
-        todoList.push(todo);
+        const response = {
+            success: [],
+            error: []
+        };
+        tasks.forEach(task => {
+            if(task.title) {
+                const todo = new Todo(task.title, task.description);
+                todoList.push(todo);
+                response.success.push(todo);
+            } else {
+                response.error.push(task);
+            }
+        });
         res.status(200);
         res.setHeader('Content-Type', 'application/json');
-        res.send({
-            task: todo,
-        });
+        res.send(response);
     }
 });
 
@@ -54,12 +59,11 @@ app.post('/todo/:uuid', (req, res) => {
             res.setHeader('Content-Type', 'application/json');
             res.send(todo);
         } else {
-            res.status(404);
+            res.status(409);
             res.send(`Task ${req.params.uuid} already marked complete!`);
         }
     } else {
         res.status(404);
-        res.setHeader('Content-Type', 'text/html');
         res.send(`Task ${req.params.uuid} not found`);
     }
 });
