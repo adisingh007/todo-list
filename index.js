@@ -5,7 +5,7 @@ const app = express();
 const todoList = [];
 
 class Todo {
-    constructor(title, description = "", completed = false) {
+    constructor(title, description = '', completed = false) {
         this.uuid = uuid.v1();
         this.title = title;
         this.description = description;
@@ -16,6 +16,7 @@ class Todo {
 app.use(express.json());
 
 app.get('/', (_, res) => {
+    res.status(200);
     res.send('Thakur Software Services - ✅TODO List!');
 });
 
@@ -23,7 +24,7 @@ app.put('/todo', (req, res) => {
     const tasks = req.body.tasks;
     if(!tasks) {
         res.status(400);
-        res.send("Tasks not provided");
+        res.send('Tasks not provided');
     } else {
         const response = {
             success: [],
