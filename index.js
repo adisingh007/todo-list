@@ -5,8 +5,9 @@ const todoList = [];
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Thakur Software Services - TODO List!');
+app.get('/', (_, res) => {
+    res.setHeader('Content-Type', 'text/html');
+    res.send('<h1>Thakur Software Services</h1><br>✅TODO List!');
 });
 
 app.post('/todo', (req, res) => {
@@ -14,7 +15,8 @@ app.post('/todo', (req, res) => {
 
     if(!todo) {
         res.status(400);
-        res.send("No task provided");
+        res.setHeader('Content-Type', 'text/html');
+        res.send("<div align='center'>No task provided</div>");
     } else{
         todoList.push(req.body.task);
         res.status(200);
@@ -25,7 +27,7 @@ app.post('/todo', (req, res) => {
     }
 });
 
-app.get('/todo', (req, res) => {
+app.get('/todo', (_, res) => {
     res.status(200);
     res.setHeader('Content-Type', 'application/json');
     res.send(todoList);
