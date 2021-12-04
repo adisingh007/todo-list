@@ -46,6 +46,18 @@ app.get('/todo', (_, res) => {
     res.send(todoList);
 });
 
+app.get('/todo/:uuid', (req, res) => {
+    const todo = todoList.find(todo => todo.uuid === req.params.uuid);
+    if(todo) {
+        res.status(200);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(todo);
+    } else {
+        res.status(404);
+        res.send(`Task ${req.params.uuid} not found!`);
+    }
+});
+
 app.patch('/todo/:uuid', (req, res) => {
     const todo = todoList.find(todo => todo.uuid === req.params.uuid);
     if(todo) {
