@@ -50,7 +50,7 @@ app.get('/todo', (_, res) => {
     res.send(todoList);
 });
 
-app.post('/todo/:uuid', (req, res) => {
+app.post('/todo/markComplete/:uuid', (req, res) => {
     const todo = todoList.find(todo => todo.uuid === req.params.uuid);
     if(todo) {
         if(!todo.completed) {
@@ -65,6 +65,24 @@ app.post('/todo/:uuid', (req, res) => {
     } else {
         res.status(404);
         res.send(`Task ${req.params.uuid} not found`);
+    }
+});
+
+app.post('/todo/markInomplete/:uuid', (req, res) => {
+    const todo = todoList.find(todo => todo.uuid === req.params.uuid);
+    if(todo) {
+        if(todo.completed) {
+            todo.completed = false;
+            res.status(200);
+            res.setHeader('Content-Type', 'application/json');
+            res.send(todo);
+        } else {
+            res.status(409);
+            res.send(`Task ${req.params.uuid} already marked incomplete!`);
+        }
+    } else {
+        res.status(404);
+        res.send(`Task ${req.params.uuid} not found!`);
     }
 });
 
