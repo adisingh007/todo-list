@@ -38,7 +38,8 @@ const hasTask = async (uuid) => {
 
 const toggleTask = async (uuid) => {
     const task = await getTask(uuid);
-    await useDB(async collection => await collection.updateOne({uuid}, {'$set': {completed: !task.completed}}), collectionName);
+    task.completed = !task.completed;
+    await useDB(async collection => await collection.updateOne({uuid}, {'$set': {completed: task.completed}}), collectionName);
     return task;
 };
 
