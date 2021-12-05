@@ -15,7 +15,7 @@ module.exports = {
          *        200:
          *          description: Name of the company and application
          */
-        app.get('/', (_, res) => {
+        app.get('/', async (_, res) => {
             res.send('Thakur Software Services - ✅TODO List!');
         });
 
@@ -37,15 +37,14 @@ module.exports = {
          *        400:
          *          description: Returns an error message if task was not provided or `title` is empty
          */
-        app.post('/todo', (req, res) => {
+        app.post('/todo', async (req, res) => {
             const task = req.body.task;
             if(!task) {
                 res.status(400);
                 res.send('Task not provided');
             } else {
                 if(task.title) {
-                    const addedTask = todoList.addTask(task.title, task.description);
-                    res.send(addedTask);
+                    res.send(await todoList.addTask(task.title, task.description));
                 } else {
                     res.status(400);
                     res.send('Title not provided!');
@@ -62,8 +61,8 @@ module.exports = {
          *        200:
          *          description: All the tasks in the todo list
          */
-        app.get('/todo', (_, res) => {
-            res.send(todoList.getTasks());
+        app.get('/todo', async (_, res) => {
+            res.send(await todoList.getTasks());
         });
 
         /**
@@ -84,9 +83,9 @@ module.exports = {
          *        404:
          *          description: Returns an error message if task is not found
          */
-        app.get('/todo/:uuid', (req, res) => {
+        app.get('/todo/:uuid', async (req, res) => {
             if(todoList.hasTask(req.params.uuid)) {
-                res.send(todoList.getTask(req.params.uuid));
+                res.send(await todoList.getTask(req.params.uuid));
             } else {
                 res.status(404);
                 res.send(`Task ${req.params.uuid} not found!`);
@@ -111,10 +110,10 @@ module.exports = {
          *        404:
          *          description: Returns an error message if task is not found  
          */
-        app.patch('/todo/:uuid', (req, res) => {
+        app.patch('/todo/:uuid', async (req, res) => {
             if(todoList.hasTask(req.params.uuid)) {
-                todoList.toggleTask(req.params.uuid);
-                res.send(todoList.getTask(req.params.uuid));
+                await todoList.toggleTask(req.params.uuid);
+                res.send(await todoList.getTask(req.params.uuid));
             } else {
                 res.status(404);
                 res.send(`Task ${req.params.uuid} not found!`);
@@ -139,10 +138,9 @@ module.exports = {
          *        404:
          *          description: Returns an error message if task is not found
          */
-        app.delete('/todo/:uuid', (req, res) => {
-            if(todoList.hasTask(req.params.uuid)) {
-                const removedTask = todoList.removeTask(req.params.uuid);
-                res.send(removedTask);
+        app.delete('/todo/:uuid', async (req, res) => {
+            if(await todoList.hasTask(req.params.uuid)) {
+                res.send(await todoList.removeTask(req.params.uuid));
             } else {
                 res.status(404);
                 res.send(`Task ${req.params.uuid} not found!`);
