@@ -84,7 +84,7 @@ module.exports = {
          *          description: Returns an error message if task is not found
          */
         app.get('/todo/:uuid', async (req, res) => {
-            if(todoList.hasTask(req.params.uuid)) {
+            if(await todoList.hasTask(req.params.uuid)) {
                 res.send(await todoList.getTask(req.params.uuid));
             } else {
                 res.status(404);
@@ -111,7 +111,7 @@ module.exports = {
          *          description: Returns an error message if task is not found  
          */
         app.patch('/todo/:uuid', async (req, res) => {
-            if(todoList.hasTask(req.params.uuid)) {
+            if(await todoList.hasTask(req.params.uuid)) {
                 await todoList.toggleTask(req.params.uuid);
                 res.send(await todoList.getTask(req.params.uuid));
             } else {
