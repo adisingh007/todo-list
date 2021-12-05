@@ -1,4 +1,4 @@
-const Task = require('../task');
+const Task = require('./task');
 
 let tasks = [];
 
