@@ -112,8 +112,7 @@ module.exports = {
          */
         app.patch('/todo/:uuid', async (req, res) => {
             if(await todoList.hasTask(req.params.uuid)) {
-                await todoList.toggleTask(req.params.uuid);
-                res.send(await todoList.getTask(req.params.uuid));
+                res.send(await todoList.toggleTask(req.params.uuid));
             } else {
                 res.status(404);
                 res.send(`Task ${req.params.uuid} not found!`);

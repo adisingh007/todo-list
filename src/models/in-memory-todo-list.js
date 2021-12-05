@@ -25,6 +25,7 @@ const hasTask = async (uuid) => {
 const toggleTask = async (uuid) => {
     const task = await getTask(uuid);
     task.toggle();
+    return task;
 };
 
 const getTasks =  async () => {
