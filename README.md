@@ -5,6 +5,7 @@ You can:
 2. Check/Uncheck task
 3. Get all tasks
 4. Get a particular task
+5. Remove a task
 
 Phase 1: Uses an in-memory array to store Task objects.  
 Phase 2: Design refactor. In-memory ToDo list was tightly coupled to `server.js`.  
