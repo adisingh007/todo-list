@@ -1,38 +1,41 @@
 const Task = require('./task');
 
-class InMemoryTodoList {
-    constructor() {
-        this.tasks = [];
-    }
+let tasks = [];
 
-    addTask(title, description = '') {
-        const addedTask = new Task(title, description);
-        this.tasks.push(addedTask);
-        return addedTask;
-    }
+const addTask = (title, description = '') => {
+    const addedTask = new Task(title, description);
+    tasks.push(addedTask);
+    return addedTask;
+};
 
-    removeTask(uuid) {
-        const removedTask = this.tasks.find(task => task.uuid === uuid);
-        this.tasks = this.tasks.filter(task => task.uuid !== uuid);
-        return removedTask;
-    }
+const removeTask = (uuid) => {
+    const removedTask = tasks.find(task => task.uuid === uuid);
+    tasks = tasks.filter(task => task.uuid !== uuid);
+    return removedTask;
+};
 
-    getTask(uuid) {
-        return this.tasks.find(task => task.uuid === uuid);
-    }
+const getTask = (uuid) => {
+    return tasks.find(task => task.uuid === uuid);
+};
 
-    hasTask(uuid) {
-        return this.tasks.some(task => task.uuid === uuid);
-    }
+const hasTask = (uuid) => {
+    return tasks.some(task => task.uuid === uuid);
+};
 
-    toggleTask(uuid) {
-        const task = this.getTask(uuid);
-        task.toggle();
-    }
+const toggleTask = (uuid) => {
+    const task = getTask(uuid);
+    task.toggle();
+};
 
-    getTasks() {
-        return this.tasks;
-    }
+const getTasks =  () => {
+    return tasks;
+};
+
+module.exports = {
+    addTask,
+    removeTask,
+    getTask,
+    hasTask,
+    toggleTask,
+    getTasks,
 }
-
-module.exports = InMemoryTodoList;
